@@ -5,6 +5,9 @@ from database.dao import DAO
 class Model:
     def __init__(self):
         self.G = nx.Graph()
+        self._rifugio=[]
+        self.nodes=[]   #controllare
+        self.edges=[]   #controllare
 
     def build_graph(self, year: int):
         """

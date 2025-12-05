@@ -9,7 +9,7 @@ class DAO:
         """
     # TODO
     @staticmethod
-    def leggi_connessione():
+    def leggi_connessione(anno_max: int):
         cnx = DBConnect.get_connection()
         result = []
 
@@ -18,9 +18,9 @@ class DAO:
             return None
 
         cursor = cnx.cursor(dictionary=True)
-        query = "SELECT * FROM connessione"
+        query = "SELECT * FROM connessione WHERE anno <= %s"
         try:
-            cursor.execute(query)
+            cursor.execute(query, (anno_max, ))
             for row in cursor:
                 connessione = Connessione(row["id"],row["id_rifugio1"], row["id_rifugio2"], row["distanza"], row["difficolta"], row["durata"], row["anno"])
                 result.append(connessione)
@@ -47,7 +47,7 @@ class DAO:
         try:
             cursor.execute(query)
             for row in cursor:
-                rifugio = Rifugio(row["nome"], row["localita"], row["altitudine"], row["capienza"],row["aperto"])
+                rifugio = Rifugio(row["id"],row["nome"], row["localita"], row["altitudine"], row["capienza"],row["aperto"])
                 result.append(rifugio)
         except Exception as e:
             print(f"errore durante la lettura della query")
